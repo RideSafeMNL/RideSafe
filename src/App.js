@@ -26,7 +26,7 @@ function App() {
           <div className="auth-inner">
             <Routes>
               {/* Set Register as the default entry point (No.1) */}
-              <Route path="/" element={<SignUp />} />
+              <Route path="/" element={<Navigate to="/register" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<SignUp />} />
               <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
