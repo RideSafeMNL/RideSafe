@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./components/login";
 import SignUp from "./components/register";
 import Profile from "./components/profile";
-import UserDetailsPage from "./components/UserDetailsPage";
-import MotorDetailsPage from "./components/MotorDetailsPage";
-import EmergencyDetailsPage from "./components/EmergencyDetailsPage";
+import UserDetailsPage from "./components/UserDetailsPage"; // New import for user details page
+import MotorDetailsPage from "./components/MotorDetailsPage"; // New import for motor details page
+import EmergencyDetailsPage from "./components/EmergencyDetailsPage"; // New import for emergency details page
 import { auth } from "./components/firebase";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       setUser(user);
     });
-    return () => unsubscribe();
   }, []);
 
   return (
@@ -26,15 +25,15 @@ function App() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Routes>
-              {/* Always redirect to Login on initial load */}
-              <Route path="/" element={<Navigate to="/login" />} />
+              {/* Redirect to Profile if user is logged in */}
+              <Route path="/" element={user ? <Navigate to="/profile" /> : <Navigate to="/login" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<SignUp />} />
-              <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
+              <Route path="/profile" element={<Profile />} />
               {/* Additional routes for details pages */}
-              <Route path="/userDetails" element={user ? <UserDetailsPage /> : <Navigate to="/login" />} />
-              <Route path="/motorDetails" element={user ? <MotorDetailsPage /> : <Navigate to="/login" />} />
-              <Route path="/emergencyDetails" element={user ? <EmergencyDetailsPage /> : <Navigate to="/login" />} />
+              <Route path="/userDetails" element={<UserDetailsPage />} />
+              <Route path="/motorDetails" element={<MotorDetailsPage />} />
+              <Route path="/emergencyDetails" element={<EmergencyDetailsPage />} />
             </Routes>
             <ToastContainer />
           </div>

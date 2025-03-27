@@ -146,7 +146,7 @@ function Register() {
     try {
         toast.info("Requesting fingerprint enrollment...");
 
-        const response = await fetch("http://192.168.137.112/start", { method: "POST" });
+        const response = await fetch("http://172.20.10.3/start", { method: "POST" });
         const contentType = response.headers.get("content-type");
 
         if (!response.ok) {
